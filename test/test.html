@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>Test Runner</title>
+
+<script type="text/javascript" src="../src/lib/jquery.min.js"></script>
+<script type="text/javascript" src="../src/render_graph.js"></script>
+
+<style type="text/css">
+.pass:before {
+  content: 'PASS: ';
+  color: green;
+}
+
+.fail:before {
+  content: 'FAIL: ';
+  color: red;
+  font-weight: bold;
+}
+</style>
+
+</head>
+<body>
+
+<ul id="output"></ul>
+
+<script type="text/javascript">
+var output = document.getElementById('output');
+
+function assert(outcome, description) {
+  var li = document.createElement('li');
+  li.className = outcome ? 'pass' : 'fail';
+  li.appendChild(document.createTextNode(description));
+  
+  output.appendChild(li);
+}
+
+tests = [];
+
+function add_test(target) {
+    tests.push(target);
+}
+</script>
+
+<script type="text/javascript" src="tryit.js"></script>
+
+<script type="text/javascript">
+for (var i in tests) {
+    test = tests[i];
+    test();
+}
+</script>
+
+</body>
+</html>
+

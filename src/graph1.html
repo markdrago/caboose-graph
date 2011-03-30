@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>Graph 1</title>
+
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="lib/flot/jquery.flot.js"></script>
+
+</head>
+<body>
+  <div id="graph" style="width:600px;height:300px"></div>
+  
+<script type="text/javascript">
+
+$(function() {
+
+    $.plot($("#graph"), [ { label: 'temp', data: [[0, 0], [1, 1]] } ], { yaxis: { max: 1 } });
+
+});
+
+</script>
+</body>
+</html>
