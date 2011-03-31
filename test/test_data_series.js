@@ -46,3 +46,23 @@ add_test(function() {
     assert(ds.data[234] == 512, tgroup + "Complex parsing, second key is correct");
 });
 
+add_test(function() {
+    json = '{ "123": { "keyname": 456 , "otherkey": 789}, ' +
+       '  "234": { "keyname": 512 }, ' +
+       '  "345": { "otherkey" : 768 }' +
+       '}';
+
+    ds = new DataSeries();
+    ds.parse_json(json, "keyname");
+    var lists = ds.get_array_of_arrays();
+    assert(lists.length == 2, tgroup + "array_of_arrays, length correct");
+
+    if (lists[0].length != 2 || lists[1].length != 2 ||
+        lists[0][0] != 123 || lists[0][1] != 456 ||
+        lists[1][0] != 234 || lists[1][1] != 512) {
+        assert(false, tgroup + "array_of_arrays, inner arrays match");
+    } else {
+        assert(true, tgroup + "array_of_arrays, inner arrays match");
+    }
+});
+

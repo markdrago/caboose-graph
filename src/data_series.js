@@ -23,5 +23,13 @@ DataSeries.prototype.data_point_count = function() {
         }
     }
     return count;
-}
+};
+
+DataSeries.prototype.get_array_of_arrays = function() {
+    var results = [];
+    for (var i in this.data) {
+        results.push([i, this.data[i]]);
+    }
+    return results;
+};
 
