@@ -30,6 +30,19 @@ add_test(function() {
             break;
         }
     }
-    assert(passes, tgroup + "Key is not parsed if requested data type is not present")
+    assert(passes, tgroup + "Key is not parsed if requested data type is not present");
+});
+
+add_test(function() {
+    json = '{ "123": { "keyname": 456 , "otherkey": 789}, ' +
+           '  "234": { "keyname": 512 }, ' +
+           '  "345": { "otherkey" : 768 }' +
+           '}';
+
+    ds = new DataSeries();
+    ds.parse_json(json, "keyname");
+    assert(ds.data_point_count() == 2, tgroup + "Complex parsing, correct count");
+    assert(ds.data[123] == 456, tgroup + "Complex parsing, first key is correct");
+    assert(ds.data[234] == 512, tgroup + "Complex parsing, second key is correct");
 });
 
