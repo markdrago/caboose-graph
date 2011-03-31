@@ -9,7 +9,9 @@ DataSeries.prototype.parse_json = function(json, dataname) {
     
     var jsonobj = $.parseJSON(json);
     for (var key in jsonobj) {
-        this.data[key] = jsonobj[key][dataname];
+        if (jsonobj[key][dataname] !== undefined) {
+            this.data[key] = jsonobj[key][dataname];
+        }
     }
 };
 
