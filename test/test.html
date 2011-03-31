@@ -21,23 +21,33 @@
 </head>
 <body>
 
+<div id="output"></div>
 <ul id="output"></ul>
 
 <script type="text/javascript">
-var output = document.getElementById('output');
+assert_count = 0;
+test_count = 0;
+var test_group = "";
+var test_group_id = "";
 
 function assert(outcome, description) {
-  var li = document.createElement('li');
-  li.className = outcome ? 'pass' : 'fail';
-  li.appendChild(document.createTextNode(description));
-  
-  output.appendChild(li);
+  var class_name = outcome ? 'pass' : 'fail';
+  var text = test_group + ': ' + description
+
+  $('#' + test_group_id).append('<li class="' + class_name + '">' + text + '</li>');
+  assert_count ++;
 }
 
-tests = [];
+function run_test(target) {
+    target();
+    test_count++;
+}
 
-function add_test(target) {
-    tests.push(target);
+function set_test_group(groupname) {
+    test_group = groupname;
+    test_group_id = groupname.replace(' ', '-');
+    $('#output').append('<h4>' + groupname + '</h4>');
+    $('#output').append('<ul id="' + test_group_id + '"></ul>');
 }
 </script>
 
@@ -45,10 +55,7 @@ function add_test(target) {
 <script type="text/javascript" src="test_data_series.js"></script>
 
 <script type="text/javascript">
-for (var i in tests) {
-    test = tests[i];
-    test();
-}
+$('body').append('<h4>Ran ' + test_count + ' test functions, with ' + assert_count + ' asserts</h4>');
 </script>
 
 </body>
