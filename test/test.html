@@ -3,7 +3,6 @@
 <title>Test Runner</title>
 
 <script type="text/javascript" src="../src/lib/jquery.min.js"></script>
-<script type="text/javascript" src="../src/render_graph.js"></script>
 
 <style type="text/css">
 .pass:before {
@@ -15,6 +14,11 @@
   content: 'FAIL: ';
   color: red;
   font-weight: bold;
+}
+
+.skip:before {
+  content: 'SKIP: ';
+  color: yellow;
 }
 </style>
 
@@ -31,11 +35,21 @@ var test_group = "";
 var test_group_id = "";
 
 function assert(outcome, description) {
-  var class_name = outcome ? 'pass' : 'fail';
+  var class_name = 'fail';
+  if (outcome === true) {
+      class_name = 'pass';
+  } else if (outcome === "skip") {
+      class_name = 'skip';
+  }
+
   var text = test_group + ': ' + description
 
   $('#' + test_group_id).append('<li class="' + class_name + '">' + text + '</li>');
   assert_count ++;
+}
+
+function skip(description) {
+  assert('skip', description);
 }
 
 function run_test(target) {
@@ -55,6 +69,10 @@ function set_test_group(groupname) {
 <script type="text/javascript" src="test_data_series.js"></script>
 <script type="text/javascript" src="../src/plot.js"></script>
 <script type="text/javascript" src="test_plot.js"></script>
+<script type="text/javascript" src="../src/navigator.js"></script>
+<script type="text/javascript" src="test_navigator.js"></script>
+<script type="text/javascript" src="../src/fetcher.js"></script>
+<script type="text/javascript" src="test_fetcher.js"></script>
 
 <script type="text/javascript">
 $('body').append('<h4>Ran ' + test_count + ' test functions, with ' + assert_count + ' asserts</h4>');
