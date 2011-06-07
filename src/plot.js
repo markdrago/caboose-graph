@@ -4,6 +4,7 @@ PlotApi.prototype.plot = function(container, data, options) {
     $.plot(container, data, options);
 }
 
+/* object that encapsulates the idea of a plot */
 function Plot() {
     this.dataseries = [];
     this.container = "";
