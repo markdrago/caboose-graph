@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    
+    <script type="text/javascript" src="src/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="src/lib/flot/jquery.flot.js"></script>
+    
+    <script type="text/javascript" src="src/data_series.js"></script>
+    <script type="text/javascript" src="src/fetcher.js"></script>
+    <script type="text/javascript" src="src/plot.js"></script>
+    <script type="text/javascript" src="src/statslist.js"></script>
+    
+    <script type="text/javascript" src="src/interface.js"></script>
+
+    <script type="text/javascript">    
+        $().ready(function() {
+            var ui = new Interface();
+            ui.init();
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Caboose</h1>
+    <h2 id="heading"></h2>
+    
+    <div id="allstats">
+        <ul id="statslist"></ul>
+    </div>
+    
+    <div id="stat" style="display: none;">
+        <a id="backtolist" href="#">Return to Stats List</a>
+        <div id="plot" style="width:600px;height:300px"></div>
+    </div>
+
+</body>
+
+</html>
+
