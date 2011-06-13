@@ -26,14 +26,26 @@ Interface.prototype.init_stats_list = function() {
     var that = this;
     $('#statslist').delegate('a', 'click', function() {
         that.show_stat($(this).attr('data-file'), $(this).text());
+        history.pushState({desc: $(this).text()}, null, $(this).attr('data-file'));
         return false;
     });
     
     //set up action for returning to statslist from individual stat
     $('#backtolist').click(function() {
         that.show_stats_list();
+        history.pushState(null, null, "/");
         return false;
     });
+
+    //set up action that runs when back/fwd buttons are hit
+    window.onpopstate = function(e, blah) {
+        var path = location.pathname;
+        if (path == "/") {
+            that.show_stats_list();
+        } else {
+            that.show_stat(location.pathname, e.state.desc);
+        }
+    };
 };
 
 Interface.prototype.show_stats_list = function() {
