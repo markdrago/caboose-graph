@@ -1,20 +1,18 @@
 function DataSeries() { }
 
 DataSeries.prototype.data = {};
-DataSeries.prototype.dataname = "";
 
-DataSeries.prototype.parse_json = function(json, dataname) {
+DataSeries.prototype.parse_json = function(json) {
     var jsonobj = $.parseJSON(json);
-    this.set_data(jsonobj, dataname);
+    this.set_data(jsonobj);
 };
 
-DataSeries.prototype.set_data = function(data, dataname) {
+DataSeries.prototype.set_data = function(data) {
     this.data = {};
-    this.dataname = dataname;
     
-    for (var key in data) {
-        if (data[key][dataname] !== undefined) {
-            this.data[key] = data[key][dataname];
+    for (var key in data.stats) {
+        if (data.stats[key] !== undefined) {
+            this.data[key] = data.stats[key];
         }
     }
 };
