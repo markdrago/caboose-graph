@@ -85,7 +85,7 @@ Interface.prototype.get_plot_options = function(dataname, description) {
     return {
         xaxis: {
             mode: "time",
-            timeformat: "%y/%m/%d"
+            timeformat: "%m/%d"
         },
         label: description,
         legend: {
