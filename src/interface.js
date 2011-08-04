@@ -6,8 +6,16 @@ function Interface() {
 };
 
 Interface.prototype.init = function() {
+    this.warn_about_broken_history();
     this.init_stats_list();
     this.show_page_based_on_location();
+};
+
+Interface.prototype.warn_about_broken_history = function() {
+    if (history.pushState !== undefined) {
+        return;
+    }
+    $('#broken_history').show();
 };
 
 Interface.prototype.init_stats_list = function() {

@@ -20,19 +20,22 @@
             ui.init();
         });
     </script>
+    
+    <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
-    <h1>Caboose</h1>
+    <h1 id="title">Caboose</h1>
+    <div id="broken_history">Your browser does not support the browser history api.<br />The back & forward buttons will most likely not work correctly.</div>
     <h2 id="heading"></h2>
     
     <div id="allstats">
         <ul id="statslist"></ul>
     </div>
     
-    <div id="stat" style="display: none;">
+    <div id="stat">
         <a id="backtolist" href="#">Return to Stats List</a>
-        <div id="plot" style="width:600px;height:300px"></div>
+        <div id="plot"></div>
     </div>
 
 </body>
