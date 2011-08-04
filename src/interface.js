@@ -7,7 +7,7 @@ function Interface() {
 
 Interface.prototype.init = function() {
     this.init_stats_list();
-    this.show_stats_list();
+    this.show_page_based_on_location();
 };
 
 Interface.prototype.init_stats_list = function() {
@@ -26,7 +26,7 @@ Interface.prototype.init_stats_list = function() {
     var that = this;
     $('#statslist').delegate('a', 'click', function() {
         that.show_stat($(this).attr('data-file'));
-        history.pushState(null, null, $(this).attr('data-file'));
+        history.pushState(null, null, '#' + $(this).attr('data-file'));
         return false;
     });
     
@@ -39,14 +39,17 @@ Interface.prototype.init_stats_list = function() {
 
     //set up action that runs when back/fwd buttons are hit
     window.onpopstate = function(e, blah) {
-        var path = location.pathname;
-        if (path == "/") {
-            that.show_stats_list();
-        } else {
-            that.show_stat(location.pathname);
-        }
+        that.show_page_based_on_location();
     };
 };
+
+Interface.prototype.show_page_based_on_location = function() {
+    if (location.hash == "#" || location.hash == "") {
+        this.show_stats_list();
+    } else {
+        this.show_stat(location.hash.substr(1));
+    }
+}
 
 Interface.prototype.show_stats_list = function() {
     $('title').text('Caboose: All Stats');
