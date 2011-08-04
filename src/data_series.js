@@ -1,10 +1,11 @@
 function DataSeries() { }
 
 DataSeries.prototype.data = {};
+DataSeries.prototype.description = "";
 
 DataSeries.prototype.parse_json = function(json) {
-    var jsonobj = $.parseJSON(json);
-    this.set_data(jsonobj);
+    this.set_data(json);
+    this.set_description(json.description);
 };
 
 DataSeries.prototype.set_data = function(data) {
@@ -40,5 +41,13 @@ DataSeries.prototype.get_data = function() {
         results.push([key, this.data[key]]);
     }
     return results;
+};
+
+DataSeries.prototype.set_description = function(description) {
+    this.description = description;
+};
+
+DataSeries.prototype.get_description = function() {
+    return this.description;
 };
 

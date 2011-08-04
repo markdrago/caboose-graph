@@ -25,8 +25,8 @@ Interface.prototype.init_stats_list = function() {
     //set up action for clicking name of stat in list
     var that = this;
     $('#statslist').delegate('a', 'click', function() {
-        that.show_stat($(this).attr('data-file'), $(this).text());
-        history.pushState({desc: $(this).text()}, null, $(this).attr('data-file'));
+        that.show_stat($(this).attr('data-file'));
+        history.pushState(null, null, $(this).attr('data-file'));
         return false;
     });
     
@@ -43,7 +43,7 @@ Interface.prototype.init_stats_list = function() {
         if (path == "/") {
             that.show_stats_list();
         } else {
-            that.show_stat(location.pathname, e.state.desc);
+            that.show_stat(location.pathname);
         }
     };
 };
@@ -56,21 +56,21 @@ Interface.prototype.show_stats_list = function() {
     $('#allstats').show();
 };
 
-Interface.prototype.show_stat = function(filename, description) {
-    $('title').text('Caboose: ' + description);
-    $('#heading').text(description);
-
+Interface.prototype.show_stat = function(filename) {
     $('#allstats').hide();
     $('#stat').show();
 
-    this.render_stat(filename, description);
+    this.render_stat(filename);
 };
 
-Interface.prototype.render_stat = function(filename, description) {
-    var dataname = this.get_statname_from_filename(filename);
-    var dataseries = this.get_dataseries_for_stat(filename, dataname);
+Interface.prototype.render_stat = function(filename) {
+    var dataseries = this.get_dataseries_for_stat(filename);
+
+    $('title').text('Caboose: ' + dataseries.get_description());
+    $('#heading').text(dataseries.get_description());
+
     var plot = this.get_plot(dataseries);
-    plot.set_options(this.get_plot_options(dataname, description));
+    plot.set_options(this.get_plot_options(dataseries.get_description()));
     plot.draw();
 };
 
@@ -81,7 +81,7 @@ Interface.prototype.get_plot = function(dataseries) {
     return plot;
 };
 
-Interface.prototype.get_plot_options = function(dataname, description) {
+Interface.prototype.get_plot_options = function(description) {
     return {
         xaxis: {
             mode: "time",
@@ -103,11 +103,11 @@ Interface.prototype.get_plot_options = function(dataname, description) {
     };
 }
 
-Interface.prototype.get_dataseries_for_stat = function(filename, dataname) {
+Interface.prototype.get_dataseries_for_stat = function(filename) {
     var statjson = this.fetcher.get_object(this.prefixDir + filename);
 
     var dataseries = new DataSeries();
-    dataseries.set_data(statjson, dataname);
+    dataseries.parse_json(statjson);
     return dataseries;
 };
 

@@ -1,7 +1,7 @@
 set_test_group("DataSeries");
 
 run_test(function() {
-    var json = '{ "stats": { "123": 456 } }';
+    var json = { "stats": { "123": 456 } };
 
     var ds = new DataSeries();
     ds.parse_json(json);
@@ -9,10 +9,18 @@ run_test(function() {
 });
 
 run_test(function() {
-    var json = '{ "stats": { "123": 456, ' +
-               '             "234": 512, ' +
-               '             "345": 768 }' +
-               '}';
+    var json = { "description": "desc goes here", "stats": { "123": 456 } };
+
+    var ds = new DataSeries();
+    ds.parse_json(json);
+    assert(ds.get_description() == "desc goes here", "parse_json, description text");
+});
+
+run_test(function() {
+    var json = { "stats": { "123": 456,
+                            "234": 512,
+                            "345": 768 }
+               };
 
     var ds = new DataSeries();
     ds.parse_json(json);
@@ -30,10 +38,10 @@ run_test(function() {
 });
 
 run_test(function() {
-    var json = '{ "stats": { "123": 456, ' +
-               '             "234": 512, ' +
-               '             "345": 768 }' +
-       '}';
+    var json = { "stats": { "123": 456,
+                            "234": 512,
+                            "345": 768 }
+       };
 
     var ds = new DataSeries();
     ds.parse_json(json);
@@ -51,10 +59,10 @@ run_test(function() {
 });
 
 run_test(function() {
-    var json = '{ "234": { "keyname": 2 }, "123": { "keyname": 1 } }';
+    var json = { "stats": {"234": 2, "123": 1}};
     
     var ds = new DataSeries();
-    ds.parse_json(json, "keyname");
+    ds.parse_json(json);
     var lists = ds.get_data();
 
     assert((lists[0][0] == "123" && lists[1][0] == "234"), "get_data, reorders by key");
