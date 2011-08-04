@@ -1,0 +1,20 @@
+#title {
+ margin: 0;
+}
+
+#broken_history {
+  display: none;
+  margin: 0;
+  font-size: small;
+  color: gray;
+}
+
+#stat {
+  display: none;
+}
+
+#plot {
+  width:600px;
+  height:300px;
+}
+
