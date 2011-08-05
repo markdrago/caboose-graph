@@ -1,5 +1,9 @@
 #title {
- margin: 0;
+ margin: 0 0 10px 0;
+}
+
+h2 {
+  margin: 0;
 }
 
 #broken_history {
@@ -9,7 +13,28 @@
   color: gray;
 }
 
+#holder {
+  width: 950px;
+}
+
+#allstats {
+  padding: 0;
+  margin: 0;
+  float: left;
+  width: 250px;
+}
+
+#allstats ul {
+  padding: 0;
+  margin: 0;
+}
+
 #stat {
-  display: none;
+  float: right;
+  width: 610px;
+}
+
+.clear {
+  clear: both;
 }
 

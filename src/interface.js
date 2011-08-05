@@ -38,13 +38,6 @@ Interface.prototype.init_stats_list = function() {
         return false;
     });
     
-    //set up action for returning to statslist from individual stat
-    $('#backtolist').click(function() {
-        that.show_stats_list();
-        history.pushState(null, null, "/");
-        return false;
-    });
-
     //set up action that runs when back/fwd buttons are hit
     window.onpopstate = function(e, blah) {
         that.show_page_based_on_location();
@@ -61,14 +54,12 @@ Interface.prototype.show_page_based_on_location = function() {
 
 Interface.prototype.show_stats_list = function() {
     $('title').text('Caboose: All Stats');
-    $('#heading').text('All Stats');
+    $('#heading').text('');
 
-    $('#stat').hide();    
-    $('#allstats').show();
+    $('#stat').hide();
 };
 
 Interface.prototype.show_stat = function(filename) {
-    $('#allstats').hide();
     $('#stat').show();
 
     this.render_stat(filename);
