@@ -81,7 +81,7 @@ Interface.prototype.render_stat = function(filename) {
     $('#heading').text(dataseries.get_description());
 
     var plot = this.get_plot(dataseries);
-    plot.set_options(this.get_plot_options(dataseries.get_description()));
+    plot.set_options(this.get_plot_options(dataseries));
     plot.draw();
 };
 
@@ -92,13 +92,14 @@ Interface.prototype.get_plot = function(dataseries) {
     return plot;
 };
 
-Interface.prototype.get_plot_options = function(description) {
-    return {
+Interface.prototype.get_plot_options = function(dataseries) {
+    var opts = {
         xaxis: {
             mode: "time",
             timeformat: "%m/%d"
         },
-        label: description,
+        yaxis: { },
+        label: dataseries.get_description(),
         legend: {
             show: true
         },
@@ -112,6 +113,13 @@ Interface.prototype.get_plot_options = function(description) {
             }
         }
     };
+
+    if (dataseries.get_datatype() == "percentage") {
+        opts.yaxis.min = 0;
+        opts.yaxis.max = 100;
+    }
+
+    return opts
 }
 
 Interface.prototype.get_dataseries_for_stat = function(filename) {

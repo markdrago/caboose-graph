@@ -6,6 +6,7 @@ DataSeries.prototype.description = "";
 DataSeries.prototype.parse_json = function(json) {
     this.set_data(json);
     this.set_description(json.description);
+    this.set_datatype(json.datatype);
 };
 
 DataSeries.prototype.set_data = function(data) {
@@ -49,5 +50,13 @@ DataSeries.prototype.set_description = function(description) {
 
 DataSeries.prototype.get_description = function() {
     return this.description;
+};
+
+DataSeries.prototype.set_datatype = function(datatype) {
+    this.datatype = datatype;
+};
+
+DataSeries.prototype.get_datatype = function() {
+    return this.datatype;
 };
 

@@ -9,6 +9,14 @@ run_test(function() {
 });
 
 run_test(function() {
+    var json = { "datatype": "percentage", "stats": { "123": 456 } };
+
+    var ds = new DataSeries();
+    ds.parse_json(json);
+    assert(ds.get_datatype() == "percentage", "parse_json, datatype");
+});
+
+run_test(function() {
     var json = { "description": "desc goes here", "stats": { "123": 456 } };
 
     var ds = new DataSeries();
