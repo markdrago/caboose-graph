@@ -101,6 +101,9 @@ Interface.prototype.render_stat = function(filename, zoom) {
 
     var plot = this.get_plot(dataseries, zoom);
     plot.draw();
+
+    //set up action that runs when hovering over the chart (for tooltips)
+    $("#plot").bind("plothover", hover_over_chart);
 };
 
 Interface.prototype.get_plot = function(dataseries, zoom) {
@@ -126,6 +129,7 @@ Interface.prototype.get_plot_options = function(dataseries) {
         legend: {
             show: true
         },
+        grid: { hoverable: true },
         series: {
             lines: {
                 show: true
@@ -220,5 +224,41 @@ Interface.prototype.get_dataseries_for_stat = function(filename) {
     var dataseries = new DataSeries();
     dataseries.parse_json(statjson);
     return dataseries;
+};
+
+
+//tooltip on hover
+var previous_hover_point = undefined;
+var hover_over_chart = function (event, pos, item) {
+    if (item) {
+        if (previous_hover_point == item.datapoint) {
+            //already showing tooltip for this data point
+            return;
+        }
+        previous_hover_point = item.datapoint;
+
+        $("#tooltip").remove();
+        var x = item.datapoint[0].toFixed(2),
+            y = item.datapoint[1].toFixed(2);
+
+        show_tooltip(item.pageX, item.pageY, y);
+    } else {
+        //moved off of a data point
+        $("#tooltip").remove();
+        previous_hover_point = null;
+    }
+};
+
+var show_tooltip = function (x, y, contents) {
+    $('<div id="tooltip">' + contents + '</div>').css({
+        position: 'absolute',
+        display: 'none',
+        top: y + 10,
+        left: x + 10,
+        border: '1px solid #fdd',
+        padding: '2px',
+        'background-color': '#fee',
+        opacity: 0.80
+    }).appendTo("body").fadeIn(200);
 };
 
