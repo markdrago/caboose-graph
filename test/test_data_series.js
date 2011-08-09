@@ -76,3 +76,19 @@ run_test(function() {
     assert((lists[0][0] == "123" && lists[1][0] == "234"), "get_data, reorders by key");
 });
 
+run_test(function() {
+    var json = { "datatype": "percentage", "stats": { "123": 456 } };
+
+    var ds = new DataSeries();
+    ds.parse_json(json);
+    assert(ds.can_zoom() == true, "percentage data types support zooming");
+});
+
+run_test(function() {
+    var json = { "datatype": "count", "stats": { "123": 456 } };
+
+    var ds = new DataSeries();
+    ds.parse_json(json);
+    assert(ds.can_zoom() == false, "non-percentage data types do not support zooming");
+});
+

@@ -44,6 +44,10 @@ DataSeries.prototype.get_data = function() {
     return results;
 };
 
+DataSeries.prototype.can_zoom = function() {
+    return this.get_datatype() == 'percentage';
+};
+
 DataSeries.prototype.set_description = function(description) {
     this.description = description;
 };
