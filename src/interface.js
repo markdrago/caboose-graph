@@ -188,7 +188,7 @@ Interface.prototype.get_filename_from_url = function() {
 };
 
 Interface.prototype.zooming_is_requested = function(hash) {
-    return this.get_param_value(hash, 'zoom') === '1';
+    return this.get_param_value(hash, 'zoom') !== '0';
 };
 
 Interface.prototype.get_param_value = function(hash, key) {

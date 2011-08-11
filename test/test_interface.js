@@ -20,8 +20,14 @@ run_test(function() {
 
 run_test(function() {
     var ui = new Interface();
+    var hash = "#stat?zoom=0";
+    assert(ui.zooming_is_requested(hash) === false, "zooming is off when requested to be off");
+});
+
+run_test(function() {
+    var ui = new Interface();
     var hash = "#stat";
-    assert(ui.zooming_is_requested(hash) === false, "zooming is off when not requested");
+    assert(ui.zooming_is_requested(hash) === true, "zooming is on by default");
 });
 
 run_test(function() {
