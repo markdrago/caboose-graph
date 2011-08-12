@@ -34,7 +34,7 @@ Interface.prototype.init_stats_list = function() {
     var that = this;
     $('#statslist').delegate('a', 'click', function() {
         var loc = that.get_location_for_options($(this).attr('data-file'));
-        history.pushState(null, null, loc);
+        that.switch_location(loc);
         that.show_page_based_on_location();
         return false;
     });
@@ -44,7 +44,7 @@ Interface.prototype.init_stats_list = function() {
         var datafile = $(this).attr('data-file');
         var zoom = $(this).attr('data-zoom');
         var loc = that.get_location_for_options(datafile, zoom);
-        history.pushState(null, null, loc);
+        that.switch_location(loc);
         that.show_page_based_on_location();
         return false;
     });
@@ -62,6 +62,14 @@ Interface.prototype.get_location_for_options = function(datafile, zoom) {
     }
     return result;
 };
+
+Interface.prototype.switch_location = function(location) {
+    if (history.pushState !== undefined) {
+        history.pushState(null, null, location);
+    } else {
+        window.location = location;
+    }
+}
 
 Interface.prototype.show_page_based_on_location = function() {
     if (location.hash == "#" || location.hash == "") {
