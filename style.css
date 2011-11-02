@@ -19,14 +19,14 @@ h2 {
 }
 
 #holder {
-  width: 950px;
+  width: 1010px;
 }
 
 #allstats {
   padding: 0;
   margin: 0;
   float: left;
-  width: 250px;
+  width: 400px;
 }
 
 #allstats ul {
@@ -35,7 +35,7 @@ h2 {
 }
 
 #stat {
-  float: right;
+  float: left;
   width: 610px;
 }
 
