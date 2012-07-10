@@ -5,6 +5,12 @@ function Interface() {
     this.prefixDir = "stats/";
 };
 
+var ZOOMTYPE = {
+    FULL_OUT: 'full_out',
+    FULL_IN: 'full_in',
+    PIN_MIN_TO_ZERO: 'pin_min_to_zero'
+}
+
 Interface.prototype.init = function() {
     this.warn_about_broken_history();
     this.init_stats_list();
@@ -75,10 +81,7 @@ Interface.prototype.show_page_based_on_location = function() {
     if (location.hash == "#" || location.hash == "") {
         this.show_stats_list();
     } else {
-        var zoom = false;
-        if (this.zooming_is_requested(location.hash)) {
-            zoom = true;
-        }
+        var zoom = this.get_zoom_type_requested(location.hash);
         var filename = this.get_filename_from_url();
         this.show_stat(filename, zoom);
     }
@@ -93,11 +96,6 @@ Interface.prototype.show_stats_list = function() {
 
 Interface.prototype.show_stat = function(filename, zoom) {
     $('#stat').show();
-
-    if (zoom !== true) {
-        zoom = false;
-    }
-
     this.render_stat(filename, zoom);
 };
 
@@ -158,28 +156,32 @@ Interface.prototype.setup_zooming = function(opts, dataseries, zoom) {
         return;
     }
 
-    if (zoom === true) {
+    if (zoom === ZOOMTYPE.FULL_IN) {
         opts.yaxis.min = undefined;
         opts.yaxis.max = undefined;
-        this.set_zoom_link_target('out');
+        this.set_zoom_link_target(ZOOMTYPE.FULL_OUT);
+    } else if (zoom === ZOOMTYPE.PIN_MIN_TO_ZERO) {
+        opts.yaxis.min = 0;
+        opts.yaxis.max = undefined;
+        this.set_zoom_link_target(ZOOMTYPE.FULL_IN);
     } else {
         opts.yaxis.min = 0;
         opts.yaxis.max = 100;
-        this.set_zoom_link_target('in');
+        this.set_zoom_link_target(ZOOMTYPE.PIN_MIN_TO_ZERO);
     }
     $('#zoom').show();
 };
 
 Interface.prototype.set_zoom_link_target = function(dir) {
-    var zoom = '0';
-    var desc = 'zoom out';
-    if (dir === 'in') {
-        zoom = '1';
-        desc = 'zoom in';
+    var desc = 'fully zoom out';
+    if (dir === ZOOMTYPE.FULL_IN) {
+        desc = 'fully zoom in';
+    } else if (dir === ZOOMTYPE.PIN_MIN_TO_ZERO) {
+        desc = 'zoom but pin min to zero';
     }
 
     var filename = this.get_filename_from_url();
-    $('#zoom').html('<a href="#" data-zoom="' + zoom + '" data-file="' + filename + '">' + desc + '</a>');
+    $('#zoom').html('<a href="#" data-zoom="' + dir + '" data-file="' + filename + '">' + desc + '</a>');
 };
 
 Interface.prototype.get_filename_from_url = function() {
@@ -195,8 +197,15 @@ Interface.prototype.get_filename_from_url = function() {
     return pieces[1].split(re)[0];
 };
 
-Interface.prototype.zooming_is_requested = function(hash) {
-    return this.get_param_value(hash, 'zoom') !== '0';
+Interface.prototype.get_zoom_type_requested = function(hash) {
+    var zoom_requested = this.get_param_value(hash, 'zoom');
+    if (zoom_requested === ZOOMTYPE.FULL_OUT) {
+        return ZOOMTYPE.FULL_OUT;
+    } else if (zoom_requested === ZOOMTYPE.PIN_MIN_TO_ZERO) {
+        return ZOOMTYPE.PIN_MIN_TO_ZERO;
+    } else {
+        return ZOOMTYPE.FULL_IN;
+    }
 };
 
 Interface.prototype.get_param_value = function(hash, key) {
