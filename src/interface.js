@@ -128,7 +128,7 @@ Interface.prototype.get_plot_options = function(dataseries) {
     var opts = {
         xaxis: {
             mode: "time",
-            timeformat: "%m/%d"
+            timeformat: "%m/%d/%y"
         },
         yaxis: { },
         label: dataseries.get_description(),
